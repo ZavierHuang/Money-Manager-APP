@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">記帳好方便</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="breakfast">早餐</string>
+    <string name="lunch">午餐</string>
+    <string name="dinner">晚餐</string>
+    <string name="traffic">交通</string>
+    <string name="entertainment">娛樂</string>
+    <string name="drink">飲料</string>
+    <string name="daily_necessity">生活用品</string>
+    <string name="medical">醫療</string>
+    <string name="other">其他</string>
+    <string name="dollars">金額</string>
+    <string name="expense">支出</string>
+    <string name="income">收入</string>
+    <string name="total">合計</string>
+    <string name="salary">薪資</string>
+    <string name="choose_type">選擇類別</string>
+    <string name="type">類別</string>
+    <string name="choose_date">選擇日期</string>
+    <string name="date">日期</string>
+    <string name="state">輸入</string>
+    <string name="ok">確定</string>
+    <string name="store">儲存</string>
+    <string name="modify">修改</string>
+    <string name="insert">新增</string>
+    <string name="start_date">起始日期</string>
+    <string name="end_date">終止日期</string>
+    <string name="search">查詢</string>
+    <string name="remark">標註</string>
+    <string-array name="state_list">
+        <item>收入</item>
+        <item>支出</item>
+    </string-array>
+
+</resources>
