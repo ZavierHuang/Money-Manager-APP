@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/month_statistics"
+        android:title="月統計" />
+    <item
+        android:id="@+id/interval_statistics"
+        android:title="區間統計" />
+    <item
+        android:id="@+id/nav_home"
+        android:title="回首頁" />
+</menu>
