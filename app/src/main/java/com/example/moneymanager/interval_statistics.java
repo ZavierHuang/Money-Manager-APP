@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.moneymanager;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.anychart.AnyChart;
@@ -50,7 +51,7 @@ public class interval_statistics extends AppCompatActivity implements Navigation
     Button search_btn;
     int start_year = 2022, start_month = 1, start_day = 1;
     int end_year = 2022, end_month = 1, end_day = 1;
-    String result[] = new String[5000];
+    String[] result = new String[5000];
     int index=0;
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     int total = 0;
@@ -62,16 +63,16 @@ public class interval_statistics extends AppCompatActivity implements Navigation
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("ON CREATE");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interval_statistics);
 
+        pie = AnyChart.pie();
         setting_id();
 
         Intent intent = getIntent();
         get_top_year = intent.getStringExtra("top_year");
         get_top_month = intent.getStringExtra("top_month");
-
-        pie = AnyChart.pie();
 
         drawer_setting();
         //創建資料庫
@@ -92,7 +93,6 @@ public class interval_statistics extends AppCompatActivity implements Navigation
         db.execSQL(createTable);
         cur = db.rawQuery("SELECT * FROM " + TB_NAME, null);
 
-
         search_all();
 
         start_date.setOnClickListener(this);
@@ -102,12 +102,10 @@ public class interval_statistics extends AppCompatActivity implements Navigation
     }
 
     private void setting_id() {
-
         start_date = this.findViewById(R.id.start_date);
         end_date = this.findViewById(R.id.end_date);
         anychartview = this.findViewById(R.id.any_chart);
         search_btn = this.findViewById(R.id.search_interval);
-
     }
 
     private void search_all() {
@@ -217,7 +215,10 @@ public class interval_statistics extends AppCompatActivity implements Navigation
         search_fit();
         System.out.println("map.size:"+treemap.size());
         System.out.println("清除");
+        System.out.println("Pie:"+pie);
+
         pie.title("Expense:"+total);
+
         System.out.println("Total:"+total);
         System.out.println("map:"+treemap);
         if(treemap.size()!=0)
@@ -237,9 +238,6 @@ public class interval_statistics extends AppCompatActivity implements Navigation
 
         System.out.println("重建");
         pie.data(dataEntries);
-
-
-
     }
 
     private void drawer_setting() {
@@ -273,12 +271,10 @@ public class interval_statistics extends AppCompatActivity implements Navigation
                 startActivity(intent);
                 return true;
             case R.id.interval_statistics:
-                Intent intent1 = new Intent();
-                intent1.putExtra("top_year",get_top_year);
-                intent1.putExtra("top_month",get_top_month);
-                intent1.setClass(interval_statistics.this, interval_statistics.class);
-                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent1);
+                DrawerLayout drawerLayout = findViewById(R.id.drawer);
+                if (drawerLayout != null) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                }
                 return true;
             case R.id.month_statistics:
                 Intent intent2 = new Intent();
@@ -321,8 +317,7 @@ public class interval_statistics extends AppCompatActivity implements Navigation
             Arrays.fill(result,"");
             index=0;
             total=0;
-            if(start_date.getText().toString().equals("起始日期")
-            ||end_date.getText().toString().equals("終止日期"))
+            if(start_date.getText().toString().equals("起始日期") || end_date.getText().toString().equals("終止日期"))
             {
                 Toast.makeText(this, "請輸入起始日期和終止日期", Toast.LENGTH_SHORT).show();
             }
@@ -332,11 +327,9 @@ public class interval_statistics extends AppCompatActivity implements Navigation
                 try {
                     Date s_t = dateFormat.parse(start_year+"-"+start_month+"-"+start_day);
                     Date e_t = dateFormat.parse(end_year+"-"+end_month+"-"+end_day);
-                    if(s_t.getTime()>e_t.getTime())
-                    {
-                        Toast.makeText(this, "輸入有誤，請重新輸入", Toast.LENGTH_SHORT).show();
-                    }
 
+                    if (e_t != null && s_t != null && s_t.getTime() > e_t.getTime())
+                        Toast.makeText(this, "輸入有誤，請重新輸入", Toast.LENGTH_SHORT).show();
                 }
                 catch (ParseException e)
                 {
@@ -353,34 +346,30 @@ public class interval_statistics extends AppCompatActivity implements Navigation
         }
     }
 
-
-    private DatePickerDialog.OnDateSetListener datePickerDlgOnDateSet = new DatePickerDialog.OnDateSetListener() {
+    private final DatePickerDialog.OnDateSetListener datePickerDlgOnDateSet = new DatePickerDialog.OnDateSetListener() {
         @SuppressLint("SetTextI18n")
         public void onDateSet (DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            start_date.setText(Integer.toString(year) + "/"+
-                    Integer.toString(monthOfYear+1) + "/" +
-                    Integer.toString(dayOfMonth) + "");
+            start_date.setText(year + "/"+
+                    (monthOfYear + 1) + "/" +
+                    dayOfMonth);
             start_year = year;
             start_month = monthOfYear+1;
             start_day = dayOfMonth;
         }
     };
-    private DatePickerDialog.OnDateSetListener datePickerDlgOnDateSet2 = new DatePickerDialog.OnDateSetListener() {
+    private final DatePickerDialog.OnDateSetListener datePickerDlgOnDateSet2 = new DatePickerDialog.OnDateSetListener() {
         @SuppressLint("SetTextI18n")
         public void onDateSet (DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            end_date.setText(Integer.toString(year) + "/"+
-                    Integer.toString(monthOfYear+1) + "/" +
-                    Integer.toString(dayOfMonth) + "");
+            end_date.setText(year + "/"+
+                    (monthOfYear + 1) + "/" +
+                    dayOfMonth);
             end_year = year;
             end_month = monthOfYear+1;
             end_day = dayOfMonth;
         }
     };
     protected void onDestroy(){
-
         super.onDestroy();
-
         db.close(); //關閉資料庫
-
     }
 }

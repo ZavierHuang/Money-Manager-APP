@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.moneymanager;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.moneymanager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -121,8 +121,6 @@ public class MainActivity extends AppCompatActivity
         adapter = new SimpleCursorAdapter(this,
                 R.layout.item,cur,LIST,new int[]{R.id.month,R.id.day,R.id.type,R.id.price},0);
 
-
-
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(this);
         lv.setOnItemLongClickListener(this);
@@ -130,14 +128,8 @@ public class MainActivity extends AppCompatActivity
         left_pic.setOnClickListener(this);
         right_pic.setOnClickListener(this);
 
-
-
-
         redirect();
         requery();
-
-
-
     }
 
     private void requery() {
@@ -496,10 +488,10 @@ public class MainActivity extends AppCompatActivity
                 str+=" remark:"+ cur.getString(7)+'\n';
                 str+="----\n";
                 if(year.equals(cur.getString(1))&&
-                    month.equals(cur.getString(2))&&
-                    day.equals(cur.getString(3))&&
-                    type.equals(cur.getString(4))&&
-                    price.equals(cur.getString(5)))
+                        month.equals(cur.getString(2))&&
+                        day.equals(cur.getString(3))&&
+                        type.equals(cur.getString(4))&&
+                        price.equals(cur.getString(5)))
                 {
                     remark = cur.getString(7);
                     ID_all = cur.getString(0);

@@ -1,16 +1,11 @@
-package com.example.project;
+package com.example.moneymanager;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,56 +19,79 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-import java.util.Calendar;
-
-public class AddData extends AppCompatActivity implements View.OnClickListener {
+public class EditData extends AppCompatActivity implements View.OnClickListener{
     TextView add_income,add_expense;
-    static String type_income,type_expense;
-    EditText main_choice,type,dollars,date,remark;
+    ActionBar actionbar;
+    EditText date,type,dollar,main_choice,remark;
+    Button store;
+    String year,month,day,types,price,remarks;
     View bottomSheetView;
     BottomSheetDialog bottomSheetDialog;
-    Button btn_add;
-    int year=0,month=0;
-    ActionBar actionbar;
-
+    static String type_income,type_expense;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_data);
-        type_income = getString(R.string.salary);
-        type_expense= getString(R.string.choose_type);
-        setting_id();
+        setContentView(R.layout.activity_edit_data);
 
-        add_income.setOnClickListener(this);
-        add_expense.setOnClickListener(this);
-        type.setOnClickListener(this);
-        dollars.setOnClickListener(this);
+
+
+        setting_id();
+        Intent intent = getIntent();
+        Bundle bag = intent.getExtras();
+        year = bag.getString("year");
+        month = bag.getString("month");
+        day = bag.getString("day");
+        types = bag.getString("type");
+        price = bag.getString("price");
+        remarks = bag.getString("remark");
+
+        type_income = getString(R.string.salary);
+        if(types.equals("薪資"))
+            type_expense = getString(R.string.choose_type);
+        else
+            type_expense = types;
+
+        initial_background();
         date.setOnClickListener(this);
-        btn_add.setOnClickListener(this);
-        setting_date_initial_time();
+        add_expense.setOnClickListener(this);
+        add_income.setOnClickListener(this);
+        type.setOnClickListener(this);
+        dollar.setOnClickListener(this);
+        store.setOnClickListener(this);
     }
 
-
-    private void setting_date_initial_time() {
-        Intent intent = getIntent();
-        year = Integer.parseInt(intent.getStringExtra("top_year"));
-        month = Integer.parseInt(intent.getStringExtra("top_month"));
-        date.setText(year+"年"+month+"月1日");
+    private void initial_background() {
+        date.setText(year+"年"+month+"月"+day+"日");
+        if(types.equals("薪資"))
+        {
+            add_income.setTextColor(Color.rgb(0,255,255));
+            add_expense.setTextColor(Color.rgb(0,0,0));
+            main_choice.setText("收入");
+            type.setText(type_income);
+        }
+        else
+        {
+            add_income.setTextColor(Color.rgb(0,0,0));
+            add_expense.setTextColor(Color.rgb(0,255,255));
+            main_choice.setText("支出");
+            type.setText(type_expense);
+        }
+        dollar.setText(price);
+        remark.setText(remarks);
     }
 
     private void setting_id() {
+        date = this.findViewById(R.id.date);
+        type = this.findViewById(R.id.type);
+        dollar = this.findViewById(R.id.dollars);
+        main_choice = this.findViewById(R.id.main_choice);
+        store = this.findViewById(R.id.store);
         add_income = this.findViewById(R.id.add_income);
         add_expense = this.findViewById(R.id.add_outcome);
-        type = this.findViewById(R.id.type);
-        main_choice = this.findViewById(R.id.main_choice);
-        dollars = this.findViewById(R.id.dollars);
-        date = this.findViewById(R.id.date);
-        btn_add = this.findViewById(R.id.btn_add);
         remark = this.findViewById(R.id.remark);
         actionbar = getSupportActionBar();
         actionbar.hide();
     }
-
 
     @Override
     public void onClick(View view) {
@@ -91,11 +109,11 @@ public class AddData extends AppCompatActivity implements View.OnClickListener {
         }
         else if(view.getId()==R.id.date) {
 
-            DatePickerDialog datePicDlg = new DatePickerDialog(AddData.this,
+            DatePickerDialog datePicDlg = new DatePickerDialog(EditData.this,
                     datePickerDlgOnDateSet,     // OnDateSetListener型態的物件
-                    year,
-                    month-1,
-                    1);
+                    Integer.parseInt(year),
+                    Integer.parseInt(month)-1,
+                    Integer.parseInt(day));
 
             datePicDlg.setCancelable(false);
 
@@ -105,7 +123,7 @@ public class AddData extends AppCompatActivity implements View.OnClickListener {
             System.out.println("main_choice:"+main_choice.getText().toString());
             if(main_choice.getText().toString().equals(getString(R.string.expense))) {
                 bottomSheetDialog = new BottomSheetDialog(
-                        AddData.this, R.style.Base_V14_ThemeOverlay_MaterialComponents_BottomSheetDialog
+                        EditData.this, com.google.android.material.R.style.Base_V14_ThemeOverlay_MaterialComponents_BottomSheetDialog
                 );
                 bottomSheetView = LayoutInflater.from(getApplicationContext())
                         .inflate(
@@ -191,40 +209,38 @@ public class AddData extends AppCompatActivity implements View.OnClickListener {
             }
 
         }
-        else if(view.getId()==R.id.btn_add)
+        else if(view.getId()==R.id.store)
         {
-            if(type.getText().toString().equals(getString(R.string.choose_type))||dollars.getText().toString().equals(""))
+            if(type.getText().toString().equals(getString(R.string.choose_type))||dollar.getText().toString().equals(""))
                 Toast.makeText(this, "請填寫完整資料\n(日期,類別,金額)", Toast.LENGTH_SHORT).show();
             else
             {
                 Intent intent = new Intent();
-                String date_r = date.getText().toString();
-                String type_r = type.getText().toString();
-                String dollar_r = dollars.getText().toString();
-                String choice_r = main_choice.getText().toString();
-                String remark_r = remark.getText().toString();
+                String date_u = date.getText().toString();
+                String type_u = type.getText().toString();
+                String dollar_u = dollar.getText().toString();
+                String choice_u = main_choice.getText().toString();
+                String remark_u = remark.getText().toString();
 
-                System.out.println("AddData:");
-                System.out.println("date_r" + date_r);
-                System.out.println("type_r:" + type_r);
-                System.out.println("dollar_r:" + dollar_r);
-                System.out.println("choice_r:" + choice_r);
-                System.out.println("remark_r:" + remark_r);
+                System.out.println("UpdateData:");
+                System.out.println("date_u" + date_u);
+                System.out.println("type_u:" + type_u);
+                System.out.println("dollar_u:" + dollar_u);
+                System.out.println("choice_u:" + choice_u);
+                System.out.println("remark_u:" + remark_u);
 
                 Bundle bag = new Bundle();
-                bag.putString("date", date_r);
-                bag.putString("type", type_r);
-                bag.putString("dollar", dollar_r);
-                bag.putString("choice", choice_r);
-                bag.putString("remark", remark_r);
+                bag.putString("date", date_u);
+                bag.putString("type", type_u);
+                bag.putString("dollar", dollar_u);
+                bag.putString("choice", choice_u);
+                bag.putString("remark", remark_u);
                 intent.putExtras(bag);
                 setResult(RESULT_OK, intent);
                 finish();
             }
         }
-
     }
-
     private DatePickerDialog.OnDateSetListener datePickerDlgOnDateSet = new DatePickerDialog.OnDateSetListener() {
         @SuppressLint("SetTextI18n")
         public void onDateSet (DatePicker view, int year, int monthOfYear, int dayOfMonth) {
