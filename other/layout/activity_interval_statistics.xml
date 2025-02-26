@@ -77,5 +77,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header"
-        app:menu="@menu/main_menu" />
+        app:menu="@menu/main_menu"
+        app:itemTextAppearance="@style/NavigationMenuTextStyle"/>
 </androidx.drawerlayout.widget.DrawerLayout>
