@@ -19,7 +19,7 @@
             android:layout_margin="10dp"
             android:text="請選擇類別"
             android:textSize="20dp"
-            android:textColor="#9C9797"/>
+            android:textColor="#000000"/>
     </LinearLayout>
 
     <LinearLayout
