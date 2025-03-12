@@ -12,16 +12,16 @@
 
 ## APP View
 ### Main Page
-<div style="display: flex; justify-content: center; align-items: center; gap:40px">
-    <img src='https://i.imgur.com/6SnLmkB.png' width=150px height=250px>
-    <img src='https://i.imgur.com/h38sRIW.png' width=150px height=250px>
-    <img src='https://i.imgur.com/aBssQ7j.png' width=150px height=250px>
-    <img src='https://i.imgur.com/yxYUdGe.png' width=150px height=250px>
-</div>
+<p align="left">
+    <img src='https://i.imgur.com/6SnLmkB.png' width=190px height=350px>
+    <img src='https://i.imgur.com/h38sRIW.png' width=190px height=350px>
+    <img src='https://i.imgur.com/aBssQ7j.png' width=190px height=350px>
+    <img src='https://i.imgur.com/yxYUdGe.png' width=190px height=350px>
+</p>
 
 ### Statistical Chart Page
-<div style="display: flex; justify-content: center; align-items: center; gap:40px;">
-    <img src='https://i.imgur.com/aANKsGs.png' width=125px height=280px>
-    <img src='https://i.imgur.com/kk7oO71.png' width=125px height=280px>
-    <img src='https://i.imgur.com/ZL7QAaF.png' width=125px height=280px>
-</div>
+<p align="left">
+    <img src='https://i.imgur.com/aANKsGs.png' width=180px height=400px>
+    <img src='https://i.imgur.com/kk7oO71.png' width=180px height=400px>
+    <img src='https://i.imgur.com/ZL7QAaF.png' width=180px height=400px>
+</p>
