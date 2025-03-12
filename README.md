@@ -6,10 +6,9 @@
 - 長按某一筆紀錄將跳出刪除確認框，點擊 Yes 即可刪除
 - 側邊欄中提供月統計和區間統計的功能，並透過圓餅圖直觀呈現各類消費佔比，使消費者能更清晰地掌握消費狀況，進而有效管控自身的消費行為。
 ## Skill
-- Environment : Android Studio (Java)
-- DataBase : SQLite
-- Package : AnyChart(https://github.com/AnyChart/AnyChart-Android)
-
+- <b>Environment : Android Studio (Java) </b> <br>
+- <b>DataBase : SQLite </b> <br>
+- <b>Package : AnyChart(https://github.com/AnyChart/AnyChart-Android)</b>
 ## APP View
 ### Main Page
 <p align="left">
